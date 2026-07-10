@@ -26,17 +26,24 @@ const registerUser = async (req, res) => {
         }
     }
 }
-const loginUser = async(req,res)=>{
-    const {email, password} = req.body;
-    if(email == "" || password == ""){
-        return res.status(500).json({status: false, message:"Fields are required"});
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    if (email == "" || password == "") {
+        return res.status(500).json({ status: false, message: "Fields are required" });
     }
-    const exists = await User.findOne({email});
+    const exists = await User.findOne({ email });
     const verifyPassword = await exists.comparePassword(password);
-    if(exists && verifyPassword){
-        return res.status(200).json({status: true, message:"Login successful", userId: exists._id});
-    }else{
-        return res.status(500).json({status: true, message:"Account not found or incorrect credentials"});
+    if (exists && verifyPassword) {
+        return res.status(200).json({ status: true, message: "Login successful", userId: exists._id });
+    } else {
+        return res.status(500).json({ status: true, message: "Account not found or incorrect credentials" });
     }
 }
-module.exports = { registerUser, loginUser };
+const getUser = async (req, res) => {
+    const { id } = req.params;
+    const exists = await User.findById(id);
+    if (exists) {
+        return res.status(200).json(exists);
+    }
+}
+module.exports = { registerUser, loginUser, getUser };
