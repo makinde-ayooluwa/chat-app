@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { APP_ENV } from '../../../constants/env';
@@ -21,6 +21,7 @@ const ChatLayout = () => {
         setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       setError(true);
     }
   }
@@ -34,6 +35,10 @@ const ChatLayout = () => {
             headerShown: true,
             headerTitle: () =>
               <>
+                {isLoading && (
+                <ActivityIndicator size={40} color={Colors.APP_COLOR} />
+                )}
+                {!isLoading && (
                 <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
                   <Image
                     source={
@@ -47,7 +52,9 @@ const ChatLayout = () => {
                     <Text>online</Text>
                   </View>
                 </View>
-              </>,
+              </>
+              )
+                },
               headerStyle:{backgroundColor: themed.background},
               
           }
