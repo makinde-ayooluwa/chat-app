@@ -4,6 +4,7 @@ import { Slot } from 'expo-router'
 import UserProvider from '../providers/UserProvider'
 import { StatusBar } from "expo-status-bar"
 import { Colors } from '../constants/colors'
+import ThemeProvider from '../providers/ThemeProvider'
 const AppLayout = () => {
     console.log("App Layout mounted");
     return (
@@ -14,7 +15,9 @@ const AppLayout = () => {
                 translucent={false}
             />
             <UserProvider>
-                <Slot />
+                <ThemeProvider>
+                    <Slot />
+                </ThemeProvider>
             </UserProvider>
         </>
     )

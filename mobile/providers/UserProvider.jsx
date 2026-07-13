@@ -45,23 +45,24 @@ export default function UserProvider({ children }) {
         return data;
     }
     const login = async (userData) => {
-        const {keepMeLoggedIn} = userData;
-        const response = await fetch(`${APP_ENV.BACKEND_URI}/user/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userData)
-        });
-        const data = await response.json();
-        setMessage(data);
-        setUser(data.userId);
-        if (keepMeLoggedIn === true) {
-            await AsyncStorage.setItem("user", data.userId);
-        }
-        // if (data.status === true) router.replace("/(app)")
-        console.log("BACKEND DATA >>>>>", data.userId);
-        return data;
+        // const {keepMeLoggedIn} = userData;
+        // const response = await fetch(`${APP_ENV.BACKEND_URI}/user/login`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(userData)
+        // });
+        // const data = await response.json();
+        // setMessage(data);
+        // setUser(data.userId);
+        // if (keepMeLoggedIn === true) {
+        //     await AsyncStorage.setItem("user", data.userId);
+        // }
+        // // if (data.status === true) router.replace("/(app)")
+        // console.log("BACKEND DATA >>>>>", data.userId);
+        // return data;
+        setUser("7747dhndnd");
     };
     const getData = async () => {
         try {
