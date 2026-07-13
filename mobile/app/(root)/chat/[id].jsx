@@ -20,6 +20,7 @@ const SingleChat = () => {
         }
       }
       catch (err) {
+        setIsLoading(false);
         setError(true);
         console.log(err);
       }
