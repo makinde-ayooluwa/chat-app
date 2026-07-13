@@ -2,12 +2,16 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { APP_ENV } from '../../../constants/env';
+import { useTheme } from '../../../providers/ThemeProvider';
+import { Colors } from '../../../constants/colors';
 
 const ChatLayout = () => {
   const { id } = useLocalSearchParams();
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const {theme} = useTheme();
+  const themed = Colors[theme] ?? Colors.light;
   async function fetchUserData() {
     try {
       const response = await fetch(`${APP_ENV.BACKEND_URI}/user/${id}`);
@@ -43,7 +47,9 @@ const ChatLayout = () => {
                     <Text>online</Text>
                   </View>
                 </View>
-              </>
+              </>,
+              headerStyle:{backgroundColor: themed.background},
+              
           }
         }
       />
