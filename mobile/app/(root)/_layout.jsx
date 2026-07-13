@@ -24,7 +24,7 @@ export default function RootLayout() {
         </Stack.Protected>
         <Stack.Protected guard={user != null}>
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="chat/[id]" options={{ headerShown: true }} />
+          <Stack.Screen name="chat" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
     </>
