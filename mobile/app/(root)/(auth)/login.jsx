@@ -54,6 +54,12 @@ const Login = () => {
 
     } catch (error) {
       setIsSubmitting(false);
+      Alert.alert("Error",
+      error.toString(),
+      [
+        { text: "OK" }
+      ]
+    );
       console.log(error);
     }
   };
