@@ -28,6 +28,7 @@ const SingleChat = () => {
   }, [])
   return (
     <CustomView flex>
+      
       {isLoading &&
         (
           <>
