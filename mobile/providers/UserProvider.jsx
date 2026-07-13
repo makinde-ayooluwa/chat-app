@@ -18,7 +18,7 @@ export default function UserProvider({ children }) {
     async function checkUser() {
         try {
             const data = await AsyncStorage.getItem("user");
-            if (data) {
+            if (data && data !== "") {
                 setUser(JSON.parse(data));
                 router.replace("/(app)")
             }
@@ -45,6 +45,7 @@ export default function UserProvider({ children }) {
         return data;
     }
     const login = async (userData) => {
+        const {keepMeLoggedIn} = userData;
         const response = await fetch(`${APP_ENV.BACKEND_URI}/user/login`, {
             method: "POST",
             headers: {
@@ -55,7 +56,7 @@ export default function UserProvider({ children }) {
         const data = await response.json();
         setMessage(data);
         setUser(data.userId);
-        if (userData.keepMeLoggedIn) {
+        if (keepMeLoggedIn === true) {
             await AsyncStorage.setItem("user", data.userId);
         }
         // if (data.status === true) router.replace("/(app)")
@@ -63,20 +64,20 @@ export default function UserProvider({ children }) {
         return data;
     };
     const getData = async () => {
-    try {
-        if (user !== null) {
-            const response = await fetch(`${APP_ENV.BACKEND_URI}/user/${user}`);
+        try {
+            if (user !== null) {
+                const response = await fetch(`${APP_ENV.BACKEND_URI}/user/${user}`);
 
-            const data = await response.json();
+                const data = await response.json();
 
-            setUserData(data);
+                setUserData(data);
 
-            console.log("USER DATA:", data);
+                console.log("USER DATA:", data);
+            }
+        } catch (error) {
+            console.log(error);
         }
-    } catch (error) {
-        console.log(error);
-    }
-};
+    };
 
     async function logout() {
         await AsyncStorage.removeItem("user");

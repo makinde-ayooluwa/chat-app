@@ -34,39 +34,39 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       setIsSubmitting(true);
-    const loginData = {
-      email,
-      password,
-      keepMeLoggedIn
-    };
-    console.log("BEFORE LOGIN:", loginData);
+      const loginData = {
+        email,
+        password,
+        keepMeLoggedIn
+      };
+      console.log("BEFORE LOGIN:", loginData);
 
-    const result = await login(loginData);
+      const result = await login(loginData);
 
-    Alert.alert(
-      result.status === true ? "Success" : "Error",
-      result.message,
-      [
-        { text: "OK" }
-      ]
-    );
-    setIsSubmitting(false);
+      Alert.alert(
+        result.status === true ? "Success" : "Error",
+        result.message,
+        [
+          { text: "OK" }
+        ]
+      );
+      setIsSubmitting(false);
 
     } catch (error) {
       setIsSubmitting(false);
       Alert.alert("Error",
-      error.toString(),
-      [
-        { text: "OK" }
-      ]
-    );
+        error.toString(),
+        [
+          { text: "OK" }
+        ]
+      );
       console.log(error);
     }
   };
   return (
     <>
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
           <CustomView flex safe style={{}}>
             <Image source={Logo} style={authStyles.logo} />
             {/* SOCIAL LOGIN */}
@@ -173,8 +173,8 @@ const Login = () => {
               </View>
             </CustomView>
           </CustomView>
-      </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   )
 }
