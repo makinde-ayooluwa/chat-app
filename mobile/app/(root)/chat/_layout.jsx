@@ -10,7 +10,7 @@ const ChatLayout = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const themed = Colors[theme] ?? Colors.light;
   async function fetchUserData() {
     try {
@@ -30,15 +30,14 @@ const ChatLayout = () => {
     <Stack>
       <Stack.Screen
         name='[id]'
-        options={
-          {
-            headerShown: true,
-            headerTitle: () =>
-              <>
-                {isLoading && (
+        options={{
+          headerShown: true,
+          headerTitle: () => (
+            <>
+              {isLoading && (
                 <ActivityIndicator size={40} color={Colors.APP_COLOR} />
-                )}
-                {!isLoading && (
+              )}
+              {!isLoading && (
                 <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
                   <Image
                     source={
@@ -51,13 +50,11 @@ const ChatLayout = () => {
                     <Text style={{ fontWeight: "bold" }}>Makinde Ayooluwa</Text>
                     <Text>online</Text>
                   </View>
-                </View>
-              </>
-              )
-                },
-              headerStyle:{backgroundColor: themed.background},
-              
-          }
+                </View>)}
+            </>
+          ),
+          headerStyle: { backgroundColor: themed.background },
+        }
         }
       />
     </Stack>
