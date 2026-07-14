@@ -10,6 +10,7 @@ import Logo from "../../../assets/images/favicon.png";
 import Checkbox from "expo-checkbox";
 import { AntDesign, Entypo, IonIcons } from "@expo/vector-icons"
 import useUser from "../../../hooks/useUser"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 const Login = () => {
   const { login } = useUser();
   const [isChecked, setChecked] = useState(false);
@@ -63,7 +64,6 @@ const Login = () => {
       console.log(error);
     }
   };
-  
   return (
     <>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"}>

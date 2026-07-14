@@ -62,22 +62,24 @@ export default function UserProvider({ children }) {
         // // if (data.status === true) router.replace("/(app)")
         // console.log("BACKEND DATA >>>>>", data.userId);
         // return data;
+        await AsyncStorage.setItem("user", "7747dhndnd");
         setUser("7747dhndnd");
     };
     const getData = async () => {
-        try {
-            if (user !== null) {
-                const response = await fetch(`${APP_ENV.BACKEND_URI}/user/${user}`);
+        // try {
+        //     if (user !== null) {
+        //         const response = await fetch(`${APP_ENV.BACKEND_URI}/user/${user}`);
 
-                const data = await response.json();
+        //         const data = await response.json();
 
-                setUserData(data);
+        //         setUserData(data);
 
-                console.log("USER DATA:", data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        //         console.log("USER DATA:", data);
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        setUserData("7747dhndnd");
     };
 
     async function logout() {
