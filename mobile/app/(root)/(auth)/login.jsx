@@ -8,6 +8,7 @@ const Login = () => {
                 <View style={styles.loginScreen}>
                     <Image style={styles.image} source={PartialLogo} />
                     <View style={styles.loginCard}>
+                    {/* INPUTs */}
                         <View style={styles.inputGroup}>
                             <TextInput placeholder='Username / Phone Number / Email' style={styles.input} />
                             <TextInput placeholder='Password' style={styles.input} />
