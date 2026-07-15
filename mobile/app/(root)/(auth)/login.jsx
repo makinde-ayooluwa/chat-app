@@ -8,7 +8,7 @@ const Login = () => {
                 <View style={styles.loginScreen}>
                     <Image style={styles.image} source={PartialLogo} />
                     <View style={styles.loginCard}>
-                    {/* INPUTs */}
+                    {/* INPUTS */}
                         <View style={styles.inputGroup}>
                             <TextInput placeholder='Username / Phone Number / Email' style={styles.input} />
                             <TextInput placeholder='Password' style={styles.input} />
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         borderColor: "#e44",
         borderRadius: 20,
         width: 400,
-        padding: 10,
+        padding: 30,
         marginVertical: 10
     }
 })
