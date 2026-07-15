@@ -1,5 +1,13 @@
-import { Redirect } from "expo-router";
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Redirect } from 'expo-router'
 
-export default function Index() {
-  return <Redirect href="/(root)" />;
+const App = () => {
+  return (
+    <Redirect href={"/(root)"} />
+  )
 }
+
+export default App
+
+const styles = StyleSheet.create({})
