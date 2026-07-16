@@ -5,12 +5,13 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useRef, useState } from "react";
-
+import CustomView from "../components/customView";
 const { height, width } = Dimensions.get("window");
-
+const SPACING = 5;
 const videos = [
   {
     id: "1",
@@ -45,7 +46,7 @@ function VideoCard({ item, active }) {
   }
 
   return (
-    <View style={styles.videoContainer}>
+    <CustomView safe style={styles.videoContainer}>
       <VideoView
         player={player}
         style={styles.video}
@@ -73,7 +74,7 @@ function VideoCard({ item, active }) {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </CustomView>
   );
 }
 
@@ -98,17 +99,14 @@ export default function Index() {
   return (
     <View style={styles.container}>
 
-      <FlatList
+      {/*<FlatList
         data={videos}
         pagingEnabled
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
 
         renderItem={({ item, index }) => (
-          <VideoCard
-            item={item}
-            active={index === activeIndex}
-          />
+          
         )}
 
         onViewableItemsChanged={onViewableItemsChanged}
@@ -116,8 +114,22 @@ export default function Index() {
 
         initialNumToRender={2}
         windowSize={3}
-      />
+      />*/}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        decelerationRate={"fast"}
+        snapToInterval={height + SPACING}
+        snapToAlignment="start"
 
+      >
+        {videos.map((item, index) =>
+          <VideoCard
+            key={index}
+            item={item}
+            active={index === activeIndex}
+          />
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -132,7 +144,7 @@ const styles = StyleSheet.create({
 
   videoContainer: {
     width,
-    height,
+    height: height - SPACING,
     backgroundColor: "#000",
   },
 
@@ -143,7 +155,7 @@ const styles = StyleSheet.create({
 
   overlay: {
     position: "absolute",
-    bottom: 60,
+    bottom: 120,
     left: 20,
     right: 20,
     flexDirection: "row",
