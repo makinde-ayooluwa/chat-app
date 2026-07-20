@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { Image } from "expo-image"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Local image mapping asset lookup
 const localImages = {
@@ -110,63 +111,65 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView 
-      contentContainerStyle={styles.bookList}
-       showsVerticalScrollIndicator={false}
-       >
-        {books.map((book) => (
-          <View key={book.id} style={styles.bookCard}>
+      <SafeAreaView>
+        <ScrollView
+          contentContainerStyle={styles.bookList}
+          showsVerticalScrollIndicator={false}
+        >
+          {books.map((book) => (
+            <View key={book.id} style={styles.bookCard}>
 
-            {/* Book Banner Graphic */}
-            <Image
-              source={localImages[book.image]}
-              style={styles.image}
-              contentFit="cover"
-            />
+              {/* Book Banner Graphic */}
+              <Image
+                source={localImages[book.image]}
+                style={styles.image}
+                contentFit="cover"
+              />
 
-            {/* Core Info Details */}
-            <View style={styles.cardContent}>
-              <View style={styles.badgeRow}>
-                <Text style={styles.genreBadge}>{book.genre}</Text>
-                <Text style={styles.ratingText}>⭐ {book.stars}</Text>
-              </View>
-
-              <Text style={styles.title}>{book.title}</Text>
-              <Text style={styles.caption}>{book.caption}</Text>
-              <Text style={styles.description}>{book.description}</Text>
-
-              {/* Interaction Bar Actions Layout */}
-              <View style={styles.interactionBar}>
-                <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(book.id)}>
-                  <Text style={[styles.actionText, book.isLiked && styles.likedText]}>
-                    {book.isLiked ? "❤️" : "🤍"} {book.likes}
-                  </Text>
-                </TouchableOpacity>
-
-                <View style={styles.actionButton}>
-                  <Text style={styles.actionText}>💬 {book.comments.length}</Text>
+              {/* Core Info Details */}
+              <View style={styles.cardContent}>
+                <View style={styles.badgeRow}>
+                  <Text style={styles.genreBadge}>{book.genre}</Text>
+                  <Text style={styles.ratingText}>⭐ {book.stars}</Text>
                 </View>
 
-                <View style={styles.actionButton}>
-                  <Text style={styles.actionText}>🔗 {book.shares}</Text>
-                </View>
-              </View>
+                <Text style={styles.title}>{book.title}</Text>
+                <Text style={styles.caption}>{book.caption}</Text>
+                <Text style={styles.description}>{book.description}</Text>
 
-              {/* Nested Comments Display Block */}
-              <View style={styles.commentSection}>
-                <Text style={styles.commentSectionTitle}>Comments</Text>
-                {book.comments.map((comment) => (
-                  <View key={comment.id} style={styles.commentBubble}>
-                    <Text style={styles.commentUser}>{comment.username}</Text>
-                    <Text style={styles.commentText}>{comment.text}</Text>
+                {/* Interaction Bar Actions Layout */}
+                <View style={styles.interactionBar}>
+                  <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(book.id)}>
+                    <Text style={[styles.actionText, book.isLiked && styles.likedText]}>
+                      {book.isLiked ? "❤️" : "🤍"} {book.likes}
+                    </Text>
+                  </TouchableOpacity>
+
+                  <View style={styles.actionButton}>
+                    <Text style={styles.actionText}>💬 {book.comments.length}</Text>
                   </View>
-                ))}
-              </View>
-            </View>
 
-          </View>
-        ))}
-      </ScrollView>
+                  <View style={styles.actionButton}>
+                    <Text style={styles.actionText}>🔗 {book.shares}</Text>
+                  </View>
+                </View>
+
+                {/* Nested Comments Display Block */}
+                <View style={styles.commentSection}>
+                  <Text style={styles.commentSectionTitle}>Comments</Text>
+                  {book.comments.map((comment) => (
+                    <View key={comment.id} style={styles.commentBubble}>
+                      <Text style={styles.commentUser}>{comment.username}</Text>
+                      <Text style={styles.commentText}>{comment.text}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
     </View>
   )
 }

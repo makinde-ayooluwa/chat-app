@@ -12,7 +12,7 @@ const HomeLayout = () => {
                     tabBarIcon: ({ focused }) => (
                         <Ionicons name={focused ? "home-sharp" : "home-outline"} size={20} />
                     ),
-                    headerShown: true,
+                    // headerShown: true,
                     headerTitle: "",
                     headerLeft: () => <Text style={styles.headerTitle}>BookWorm</Text>
                 }
