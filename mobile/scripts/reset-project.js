@@ -49,7 +49,7 @@ if (!fs.existsSync(appDir)) {
 
 // Create index.tsx
 fs.writeFileSync(
-  path.join(appDir, "index.tsx"),
+  path.join(appDir, "index.jsx"),
 `import { Text, View } from "react-native";
 
 export default function Index() {
@@ -71,7 +71,7 @@ export default function Index() {
 
 // Create _layout.tsx
 fs.writeFileSync(
-  path.join(appDir, "_layout.tsx"),
+  path.join(appDir, "_layout.jsx"),
 `import { Stack } from "expo-router";
 
 export default function RootLayout() {

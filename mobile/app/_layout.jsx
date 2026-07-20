@@ -1,28 +1,18 @@
-import { Stack, Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons"
-import { StatusBar } from "expo-status-bar";
-
-export default function RootLayout() {
+import { View, Text } from 'react-native'
+import React from 'react'
+import { Slot, Stack } from 'expo-router'
+import { useFonts } from "expo-font"
+const AppLayout = () => {
+  const [fontLoaded, error] = useFonts({
+    'Poppins-Black': require('../assets/fonts/Poppins-Black.ttf'),
+    'Poppins-Light': require('../assets/fonts/Poppins-Light.ttf'),
+  })
   return (
-    <>
-        <StatusBar style="light" />
-        <Tabs screenOptions={{ headerShown: false }}>
-          <Tabs.Screen name="index" options={{
-            title: "Home", tabBarIcon: ({ focused }) =>
-              <>
-                <Ionicons name={focused ? "home" : "home-outline"} size={20} />
-              </>
-          }
-          }
-          />
-          <Tabs.Screen name="chat" options={{
-            title: "Chat", tabBarIcon: ({ focused }) =>
-              <>
-                <Ionicons name={focused ? "chatbubble" : "chatbubble-outline"} size={20} />
-              </>
-          }
-          } />
-        </Tabs>
-    </>
-  );
+    <Stack>
+      <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+      <Stack.Screen name='(home)' options={{ headerShown: false }} />
+    </Stack>
+  )
 }
+
+export default AppLayout
