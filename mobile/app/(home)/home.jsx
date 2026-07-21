@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Pressable } from 'react-native'
 import { Image } from "expo-image"
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 // Local image mapping asset lookup
 const localImages = {
   "favicon.png": require("../../assets/images/favicon.png"),
 };
-
+const CARD_HEIGHT = height - 32;
+const CARD_SPACING = 18;
+const { width, height } = Dimensions.get("screen");
 const HomeScreen = () => {
-  // Added local state so liking a book instantly toggles in the UI
-  const [books, setBooks] = useState([
+  // Added local state so liking a post instantly toggles in the UI
+  const [posts, setPosts] = useState([
     {
       id: 1,
       title: "Milk and Honey",
-      caption: "A milk and honey book",
+      caption: "A milk and honey post",
       description: "A collection of poetry and prose about survival, love, heartbreak, and healing.",
       image: "favicon.png",
       genre: "Poetry",
@@ -22,11 +25,16 @@ const HomeScreen = () => {
       likes: 1240,
       isLiked: true,
       shares: 89,
+
       comments: [
-        { id: "c1", username: "Makinde Ayooluwa", text: "Awesome book" },
-        { id: "c2", username: "Makinde Ayomide", text: "Great book" },
-        { id: "c3", username: "Makinde", text: "Beautiful book" }
-      ]
+        { id: "c1", username: "Makinde Ayooluwa", text: "Awesome post" },
+        { id: "c2", username: "Makinde Ayomide", text: "Great post" },
+        { id: "c3", username: "Makinde", text: "Beautiful post" }
+      ],
+      poster: {
+        name: "Makinde Ayooluwa",
+        image: "favicon.png"
+      }
     },
     {
       id: 2,
@@ -95,33 +103,52 @@ const HomeScreen = () => {
 
   // Handler to toggle user like interactions
   const handleLike = (id) => {
-    setBooks(prevBooks =>
-      prevBooks.map(book => {
-        if (book.id === id) {
+    setPosts(prevPosts =>
+      prevPosts.map(post => {
+        if (post.id === id) {
           return {
-            ...book,
-            isLiked: !book.isLiked,
-            likes: book.isLiked ? book.likes - 1 : book.likes + 1
+            ...post,
+            isLiked: !post.isLiked,
+            likes: post.isLiked ? post.likes - 1 : post.likes + 1
           };
         }
-        return book;
+        return post;
       })
     );
   };
-
+  const handleCommentAddition = (id) => {
+    // const post = posts.find((x)=>x.id == id);
+    // post.comments.push({
+    //   
+    // })
+    setPosts([...posts, posts.find((x) => x.id == id).comments.push({
+      id: Math.floor(Math.random()) * 1234, username: "New Comment",
+      text: newComment
+    })])
+    setNewComment([]);
+  }
   return (
     <View style={styles.container}>
       <SafeAreaView>
         <ScrollView
-          contentContainerStyle={styles.bookList}
+          contentContainerStyle={styles.postList}
           showsVerticalScrollIndicator={false}
+          snapToAlignment='start'
+          // snapToInterval={CARD_HEIGHT - CARD_SPACING}
+          decelerationRate={"fast"}
         >
-          {books.map((book) => (
-            <View key={book.id} style={styles.bookCard}>
-
-              {/* Book Banner Graphic */}
+          {posts.map((post) => (
+            <View key={post.id} style={styles.postCard}>
+              <View style={styles.poster}>
+                <Image style={styles.poster.image} source={localImages[post?.poster?.image] ?? "../../assets/images/favicon.png"} />
+                <View>
+                  <Text style={styles.poster.name}>{post?.poster?.name ?? "Anonymus participant"}</Text>
+                  <Text>Just now</Text>
+                </View>
+              </View>
+              {/* post Banner Graphic */}
               <Image
-                source={localImages[book.image]}
+                source={localImages[post.image]}
                 style={styles.image}
                 contentFit="cover"
               />
@@ -129,41 +156,47 @@ const HomeScreen = () => {
               {/* Core Info Details */}
               <View style={styles.cardContent}>
                 <View style={styles.badgeRow}>
-                  <Text style={styles.genreBadge}>{book.genre}</Text>
-                  <Text style={styles.ratingText}>⭐ {book.stars}</Text>
+                  <Text style={styles.genreBadge}>{post.genre}</Text>
+                  <Text style={styles.ratingText}>⭐ {post.stars}</Text>
                 </View>
 
-                <Text style={styles.title}>{book.title}</Text>
-                <Text style={styles.caption}>{book.caption}</Text>
-                <Text style={styles.description}>{book.description}</Text>
+                <Text style={styles.title}>{post.title}</Text>
+                <Text style={styles.caption}>{post.caption}</Text>
+                <Text style={styles.description}>{post.description}</Text>
 
                 {/* Interaction Bar Actions Layout */}
                 <View style={styles.interactionBar}>
-                  <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(book.id)}>
-                    <Text style={[styles.actionText, book.isLiked && styles.likedText]}>
-                      {book.isLiked ? "❤️" : "🤍"} {book.likes}
+                  <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(post.id)}>
+                    <Text style={[styles.actionText, post.isLiked && styles.likedText]}>
+                      {post.isLiked ? "❤️" : "🤍"} {post.likes}
                     </Text>
                   </TouchableOpacity>
 
                   <View style={styles.actionButton}>
-                    <Text style={styles.actionText}>💬 {book.comments.length}</Text>
+                    <Text style={styles.actionText}>💬 {post.comments.length}</Text>
                   </View>
 
                   <View style={styles.actionButton}>
-                    <Text style={styles.actionText}>🔗 {book.shares}</Text>
+                    <Text style={styles.actionText}>🔗 {post.shares}</Text>
                   </View>
                 </View>
 
                 {/* Nested Comments Display Block */}
                 <View style={styles.commentSection}>
-                  <Text style={styles.commentSectionTitle}>Comments</Text>
-                  {book.comments.map((comment) => (
+                  <Text style={styles.commentSectionTitle}>Top Comments</Text>
+                  {post.comments.map((comment, index) => index < 3 && (
                     <View key={comment.id} style={styles.commentBubble}>
                       <Text style={styles.commentUser}>{comment.username}</Text>
                       <Text style={styles.commentText}>{comment.text}</Text>
                     </View>
                   ))}
                 </View>
+                {/* <View style={styles.addComment}>
+                  <TextInput value={newComment[post.id]} onChangeText={()=>setNewComment(post.id)} style={styles.commentInput} placeholder='Add comment' />
+                  <Pressable>
+                    <Ionicons name='send' style={styles.sendComment} onPress={() => handleCommentAddition(post.id)} />
+                  </Pressable>
+                </View> */}
               </View>
 
             </View>
@@ -175,33 +208,45 @@ const HomeScreen = () => {
 }
 
 export default HomeScreen
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f2f5",
   },
-  bookList: {
-    padding: 16,
+
+  postList: {
+    padding: 0
   },
-  bookCard: {
-    width: '100%',
-    backgroundColor: '#fff',
-    marginBottom: 24,
-    borderRadius: 16,
-    overflow: 'hidden',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
+  postCard: {
+    flex: 1,
+    height: CARD_HEIGHT,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "gray",
+    borderWidth: 2
   },
   image: {
-    width: '100%',
-    height: 200,
+    width: "100%",
+    height: 300
+  },
+  poster: {
+    flexDirection: "row",
+    alignSelf: "start",
+    padding: 10,
+    alignItems: "center",
+    gap: 10,
+    image: {
+      width: 30,
+      height: 30,
+      borderColor: "gray",
+      borderRadius: 50,
+      borderWidth: 1
+    },
+    name: {
+      fontWeight: "bold"
+    }
   },
   cardContent: {
-    padding: 16,
+    padding: 10
   },
   badgeRow: {
     flexDirection: 'row',
@@ -290,5 +335,30 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 13,
     color: '#4b4b4b',
+  },
+  addComment: {
+    flexDirection: "row",
+    gap: 5,
+    alignItems: "center"
+  },
+  commentInput: {
+    borderWidth: 1,
+    borderColor: "gray",
+    width: width - 60,
+    borderRadius: 20
+  },
+  sendComment: {
+    borderColor: "gray",
+    borderWidth: 1,
+    padding: 12.5,
+    borderRadius: 50,
+    backgroundColor: "green",
+    color: "#fff"
   }
 })
+// const styles = StyleSheet.create({
+//
+//
+//
+//
+// })

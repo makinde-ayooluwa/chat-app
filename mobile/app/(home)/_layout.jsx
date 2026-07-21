@@ -18,11 +18,29 @@ const HomeLayout = () => {
                 }
             }
             />
+            <Tabs.Screen name='reels' options={
+                {
+                    title: "Reels",
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons name={focused ? "videocam" : "videocam-outline"} size={30} />
+                    )
+                }
+            }
+            />
             <Tabs.Screen name='create' options={
                 {
                     title: "",
                     tabBarIcon: ({ focused }) => (
                         <Ionicons name={focused ? "add-circle" : "add-circle-outline"} size={30} />
+                    )
+                }
+            }
+            />
+            <Tabs.Screen name='chat' options={
+                {
+                    title: "Chat",
+                    tabBarIcon: ({ focused }) => (
+                        <Ionicons name={focused ? "chatbubble" : "chatbubble-outline"} size={30} />
                     )
                 }
             }
